@@ -1,4 +1,6 @@
 # PyFinder
+![banner](https://user-images.githubusercontent.com/62577914/97069615-71503f80-159f-11eb-891c-7ef3c94553f3.jpg)
+
 ## Script Feito usando a API do Hunter.io v2
 
 ### Requisitos
