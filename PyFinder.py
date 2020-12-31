@@ -1,7 +1,21 @@
 import requests
 import json
 import sys, os
+import time
+from core.banner import *
 
+def Register_key():
+   
+    Rkey = input("Digite sua Key >> ")
+    
+    
+    with open('core/Saved_key', 'w') as arq:
+       
+        Fkey = arq.write(Rkey)
+        
+    print("Key salva com sucesso")
+    time.sleep(1)
+    menu()
 
 def domain_search():
     domain()
@@ -18,10 +32,12 @@ def domain_search():
     elif domin == '99' or domin == '9':
         sys.exit()
     else:    
-        
-        key_da_api = input('\033[1;35m'+"Insira sua KEY API > "+'\033[0;0m')
+        arq = open('core/Saved_key','r')
+        key = arq.read()
+        arq.close()
+      
         try:
-            req = requests.get('https://api.hunter.io/v2/domain-search?domain={}&api_key={}'.format(domin, key_da_api))
+            req = requests.get('https://api.hunter.io/v2/domain-search?domain={}&api_key={}'.format(domin, key))
             
             dicio = json.loads(req.text)
             os.system('clear')
@@ -36,10 +52,29 @@ def domain_search():
             print('organização: {}'.format(dicio["data"]["organization"]))
             print('Pais: {}'.format(dicio["data"]["country"]))
             print('Estado: {}'.format(dicio["data"]["state"]))
+
+            req2 = requests.get('https://api.hunter.io/v2/email-count?domain={}'.format(domin))
+            dicio2 = json.loads(req2.text)
+            quant = dicio2["data"]["total"]
+            
+            print('\033[1;92m'+'-----------------------------------------------------------')
+            print('---                TIPOS DE E-MAILS                    ---')
+            print('-----------------------------------------------------------''\033[0;0m')
+
+            print('\033[1;33m'+'Quantidade de e-mails: {}'.format(quant))
+            print('\033[1;33m'+'E-mails pessoais:{}'.format(dicio2["data"]["personal_emails"]))
+            print('\033[1;33m'+'E-mails genericos: {}'.format(dicio2["data"]["generic_emails"]))
+            
+
+            
+
             print('\033[1;92m'+"-----------------------------------------------------------")
             print('---               E-MAILS ENCONTRADOS                   ---')
             print('-----------------------------------------------------------''\033[0;0m')
-            for mail in range(0, 10):
+
+
+            for mail in range(0, quant):
+                    
                 print('\033[1;33m'+'Email: {}'.format(dicio["data"]["emails"][mail]['value']))
                 print('Tipo: {}'.format(dicio["data"]["emails"][mail]["type"]))
                 print("Twitter: {}".format(dicio["data"]["emails"][mail]["twitter"]))
@@ -48,13 +83,14 @@ def domain_search():
 
 
         except KeyError:
-            print("Erro Verifique o dominio inserido ou a API")
+            print("Erro Verifique o dominio inserido ou a Key")
         
 
 def email_finder():
     finder()
 
     print('\033[1;96m'+"Encontre os endereços de e-mail das pessoas com as quais deseja entrar em contato")
+    print("Apenas com o nome, sobrenome E dominio")
     print("\n")
     print("[00] Voltar ao menu")
     print("[99] Sair"+'\033[0;0m')
@@ -70,9 +106,12 @@ def email_finder():
     elif dom_name == '99' or dom_name == '9':
         sys.exit()
     else:
-        key_da_api = input('\033[1;35m'+"Insira sua KEY API > "+'\033[0;0m')
+        arq = open('core/Saved_key','r')
+        key = arq.read()
+        arq.close()
+       
         try:
-            req = requests.get('https://api.hunter.io/v2/email-finder?domain={}&first_name={}&last_name={}&api_key={}'.format(dom_name, p_name, u_name, key_da_api))
+            req = requests.get('https://api.hunter.io/v2/email-finder?domain={}&first_name={}&last_name={}&api_key={}'.format(dom_name, p_name, u_name, key))
 
             dicio = json.loads(req.text)
             os.system('clear')
@@ -108,10 +147,12 @@ def email_verifier():
     elif domi == '99' or domi == '9':
         sys.exit()
     else:
-        key_da_api = input('\033[1;35m'+"Insira sua KEY API > "+'\033[0;0m')
+        arq = open('core/Saved_key','r')
+        key = arq.read()
+        arq.close()
 
         try:
-            req = requests.get('https://api.hunter.io/v2/email-verifier?email={}&api_key={}'.format(domi, key_da_api))
+            req = requests.get('https://api.hunter.io/v2/email-verifier?email={}&api_key={}'.format(domi, key))
 
             dicio = json.loads(req.text)
             os.system('clear')
@@ -125,33 +166,12 @@ def email_verifier():
             print('\033[1;31m'+"Email Nao encontrado"+'\033[0;0m')
 
 
-def banner():
-    print('\033[1;97m' + "L D F G R A W V R H W S B S K L T")
-    print("E J W V " '\033[1;32m' + "P Y F I N D E R " '\033[37m'+"W Q J Z O")
-    print('\033[1;97m' + "K A Y U S D G P Y I B F H D I K F" + '\033[0;0m')
-
-def email_verifierBanner():
-    print('\033[1;97m' + "L D F G R A W V R H W S B S K L T")
-    print("E J W V " '\033[1;32m' + "V E R I F I E R " '\033[37m'+"W Q J Z O")
-    print('\033[1;97m' + "K A Y U S D G P Y I B F H D I K F" + '\033[0;0m')
-
-
-def finder():
-    print('\033[1;97m' + "L D F G R A W V R H W S B S K L T")
-    print("E J W V " '\033[1;32m' + "F I N D E R " '\033[37m'+"W Q J Z O G Z")
-    print('\033[1;97m' + "K A Y U S D G P Y I B F H D I K F" + '\033[0;0m')
-
-
-def domain():
-    print('\033[1;97m' + "L D F G R A W V R H W S B S K L T")
-    print("E J W V " '\033[1;32m' + "D O M A I N " '\033[37m'+"W Q J Z O F V")
-    print('\033[1;97m' + "K A Y U S D G P Y I B F H D I K F" + '\033[0;0m')
 
 def menu():
     os.system('clear')
     banner()
     print("\n")
-    print('\033[1;96m'+"Oque deseja fazer? ")
+    print('\033[1;96m'+"Oque deseja fazer?")
     print("\n")
     print("Escolha uma ferramenta para usa-la")
     print("E saber mais sobre")
@@ -159,6 +179,7 @@ def menu():
     print("[01] VERIFICADOR DE EMAIL")
     print("[02] EMAIL FINDER")
     print("[03] PESQUISA DE DOMÍNIO")
+    print("[04] SALVAR KEY")
     print("\n")
     print("[00] Sair")
 
@@ -181,10 +202,16 @@ def menu():
         
         elif escolha == '3' or escolha == '02':
             domain_search()
+
+        elif escolha == '4' or escolha == '04':
+            Register_key()
         else:           
             
             menu()
-menu()       
+
+if __name__ == "__main__":
+    menu()
+     
         
 
     
