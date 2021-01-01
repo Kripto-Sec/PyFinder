@@ -9,8 +9,15 @@
 ### Como usar
 Para usar todas as funções você deve obter sua api key no site [Hunter.io](https://hunter.io/api-keys)
 
+Logo de inicio use a opção 4
+* ` Salvar Key`
+para deixar salvo sua KEY para que não precise ficar digitando
+
+
 PyFinder Suporta os mesmos metodos usados do [Hunter.io](https://hunter.io/api/v2/docs) v2 API:
 
+
+Com a diferença de que as consultas sao ILIMITADAS
 * `domain_search`
 
 Obtenha os endereços de e-mail de qualquer site.
