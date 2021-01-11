@@ -283,7 +283,7 @@ def menu():
         elif escolha == '2' or escolha == '02':
             email_finder()
         
-        elif escolha == '3' or escolha == '02':
+        elif escolha == '3' or escolha == '03':
             domain_search()
 
         elif escolha == '4' or escolha == '04':
